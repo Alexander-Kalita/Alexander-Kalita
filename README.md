@@ -1,6 +1,5 @@
 # Bellabeat Case study
 
-This repository contains Bellabeat Case study created in RStudio. Please click file:///C:/Users/Alexander_Kalita/Desktop/Kalita_A_Bellabeat_Case_Study.html 
+This repository contains Bellabeat Case study created in RStudio. Please click [Bellabeat Case Study: How Can a Wellness Technology Company Play It Smart?](https://rpubs.com/Alexander_Kalita/1041951) to access the HTML version of the project in RPubs.
 
-to access the HTML version of the project.
 
