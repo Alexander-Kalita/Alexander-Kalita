@@ -1,1 +1,180 @@
+---
+title: 'Bellabeat Case Study: How Can a Wellness Technology Company Play It Smart?'
+author: "Alexander Kalita"
+output: html_document
+---
+
+### Data source and data cleaning
+
+This section is divided into two parts. At first, the data source is briefly outlined and then detailed data processing is presented.
+
+#### Data source
+
+The data used in this study is publicly available through Kaggle platform: [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit). It was collected by Amazon Mechanical Turk between 03.12.2016-05.12.2016. This dataset consists of information about 30 users devoted to physical activity, sleeping patterns and heart rate. The data has some limitations: the data was collected in a single period of time, the sample is quite small (n=30) and it is not representative of the whole fitness tracker population. Despite its limitations, the data can be used to make a preliminary analysis of the smart device usage trends and its application to Bellabeat customers and marketing strategy.
+
+#### Processing data
+
+With previously installed packages, the following libraries are loaded in RStudio:
+
+```{r}
+# Loading libraries
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(skimr)
+library(janitor)
+```
+
+After preliminary analysis, the research focuses on three datatsets by reading them as CSV files:
+
+```{r}
+# Reading CSV files
+daily_activity <- read.csv(file = "C:/Users/Alexander_Kalita/Desktop/1_Bellabeat/1_Fitabase Data 4.12.16-5.12.16/2_Activity/dailyActivity_merged.csv")
+daily_sleep <- read.csv(file="C:/Users/Alexander_Kalita/Desktop/1_Bellabeat/1_Fitabase Data 4.12.16-5.12.16/3_Sleep/dailySleep_merged.csv") 
+hourly_steps <- read.csv(file="C:/Users/Alexander_Kalita/Desktop/1_Bellabeat/1_Fitabase Data 4.12.16-5.12.16/2_Activity/hourlySteps_merged.csv")
+```
+
+The used str() function provided some information about the internal data structure. This data was doublechecked in Google sheets.
+
+```{r}
+# Exploring the datasets
+str(daily_activity)
+str(daily_sleep)
+str(hourly_steps)
+```
+
+It was important to distinguish unique users in each dataset.
+
+```{r}
+# Summarizing distinct users
+n_distinct(daily_activity$Id)
+n_distinct(daily_sleep$Id) 
+n_distinct(hourly_steps$Id)
+```
+
+The date format is not consistent throughout the datasets, so the runned code helps to fix this. At first glance, the “daily_activity” code did not change much but the initial date format was m/dd/YYYY, not mm/dd/YYYY. It prevents further file merge for analysis.
+
+```{r}
+# Fixing date consistency
+daily_activity$ActivityDate <- format(strptime(daily_activity$ActivityDate, "%m/%d/%Y"), "%m/%d/%Y")
+daily_sleep$SleepDay <- format(strptime(daily_sleep$SleepDay, "%m/%d/%Y %I:%M:%S %p"), "%m/%d/%Y")
+hourly_steps$ActivityHour=as.POSIXct(hourly_steps$ActivityHour, format="%m/%d/%Y %I:%M:%S %p", tz="UTC")
+head(daily_activity$ActivityDate)
+head(daily_sleep$SleepDay)
+head(hourly_steps$ActivityHour)
+```
+
+The date/time columns are renamed in the datasets.
+
+```{r}
+# Renaming columns
+daily_activity <- rename (daily_activity, date = ActivityDate)
+daily_sleep <- rename (daily_sleep, date = SleepDay)
+hourly_steps <- rename (hourly_steps, date_time = ActivityHour)
+colnames(daily_activity)
+colnames(daily_sleep)
+colnames(hourly_steps)
+```
+
+Two files are merged: “daily_activity” and “daily_sleep” datasets. They will be further used for designing box plots and correlation analysis.
+
+```{r}
+# Merging datasets
+daily_activitySleep <- merge(daily_activity, daily_sleep, by=c("Id", "date"))
+head(daily_activitySleep$Id)
+head(daily_activitySleep$date)
+```
+
+A new dataset includes four activity types in one column.
+
+```{r}
+# Grouping users in four categories
+activity_type_data <- daily_activitySleep %>%
+  summarise(
+    activity_type = factor(case_when(
+      SedentaryMinutes > mean(SedentaryMinutes) & LightlyActiveMinutes < mean(LightlyActiveMinutes) & FairlyActiveMinutes < mean(FairlyActiveMinutes) & VeryActiveMinutes < mean(VeryActiveMinutes) ~ "Sedentary Active",
+      SedentaryMinutes < mean(SedentaryMinutes) & LightlyActiveMinutes > mean(LightlyActiveMinutes) & FairlyActiveMinutes < mean(FairlyActiveMinutes) & VeryActiveMinutes < mean(VeryActiveMinutes) ~ "Lightly Active",
+      SedentaryMinutes < mean(SedentaryMinutes) & LightlyActiveMinutes < mean(LightlyActiveMinutes) & FairlyActiveMinutes > mean(FairlyActiveMinutes) & VeryActiveMinutes < mean(VeryActiveMinutes) ~ "Fairly Active",
+      SedentaryMinutes < mean(SedentaryMinutes) & LightlyActiveMinutes < mean(LightlyActiveMinutes) & FairlyActiveMinutes < mean(FairlyActiveMinutes) & VeryActiveMinutes > mean(VeryActiveMinutes) ~ "Very Active",
+    ),levels=c("Sedentary Active", "Lightly Active", "Fairly Active", "Very Active")), TotalMinutesAsleep, group=Id)%>%
+  drop_na()
+```
+
+In table 1, the date and time columns are separated apart because time will be used as a key variable to group data for histogram in the next section.
+
+### What does the data tell us?
+
+The section presents basic descriptive statistics of the key variables and some important data visualizations.
+
+#### Descriptive statistics
+
+```{r}
+# Summarizing total daily steps and activity level
+daily_activity %>%
+  select(TotalSteps,
+         VeryActiveMinutes,
+         FairlyActiveMinutes,
+         LightlyActiveMinutes,
+         SedentaryMinutes
+         ) %>%
+  summary()
+
+# Summarizing Steps counted per hour
+hourly_steps %>%
+  select(StepTotal) %>%
+  summary()
+
+# Summarizing total sleep duration in minutes
+daily_sleep %>%
+  select(TotalMinutesAsleep) %>%
+summary()
+```
+
+### Data visualization
+
+```{r}
+# Histogram: Average steps per hour in a day
+hourly_steps %>%
+  group_by(time) %>%
+  summarize(average_steps = mean(StepTotal)) %>%
+  ggplot() +
+  geom_col(mapping = aes(x=time, y = average_steps, fill = average_steps)) +
+  labs(title = "Figure 1: Average steps per hour", x="", y="") + 
+  scale_fill_gradient(low = "green3", high = "red3")+
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+```{r}
+# Boxplot: Activity type and Sleep duration
+ggplot(activity_type_data, aes(activity_type, TotalMinutesAsleep, fill=activity_type)) +
+  geom_boxplot() +
+  labs(title="Figure 2: Activity type and Sleep duration", x=NULL) +
+  theme(legend.position="none")
+```
+
+```{r}
+# Scatterplot: Sedentary activities and Sleep duration
+ggplot(data=daily_activitySleep, aes(x=SedentaryMinutes, y=TotalMinutesAsleep)) +
+  geom_point() +
+  geom_smooth() +
+  labs(title="Figure 3: Sedentary activities and Sleep duration")
+```
+
+### Conclusions and recommendations
+Based on the data analysis, there are some important recommendations for Bellabeat company.
+
+### List of References
+1. https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/ [accessed date: 16.11.2022].
+
+2. https://www.medicalnewstoday.com/articles/how-many-steps-should-you-take-a-day#for-general-health [accessed date: 16.11.2022].
+
+3. https://www.cdc.gov/sleep/about_sleep/how_much_sleep.html [accessed date: 16.11.2022].
+
+4. Lakerveld J., Mackenbach J.D., Horvath E., Rutters F., Compernolle S., Bárdos H., Bourdeaudhuij I.D., Charreire H., Rutter H., Oppert J-M., McKee M., Brug J. (2016). The relation between sleep duration and sedentary behaviours in European adults. Obesity Reviews, 17(Suppl., 1): 62-67.
+
+5. Creasy S.A., Crane T.E., Garcia D.O., Thomson C.A., Kohler L.N., Wertheim B.C., Baker L.D., Coday M., Hale L., Womack C.R., Wright Jr. K.P., Melanson E.L. (2019). Higher amounts of sedentary time are associated with short sleep duration and poor sleep quality in postmenopausal women. Sleep, 42(7): 1-9.
+
+
 
