@@ -4,6 +4,12 @@ author: "Alexander Kalita"
 output: html_document
 ---
 
+# Introduction
+
+
+
+
+
 # Data source and data cleaning
 
 This section is divided into two parts. At first, the data source is briefly outlined and then detailed data processing is presented.
@@ -56,7 +62,8 @@ n_distinct(daily_sleep$Id)
 n_distinct(hourly_steps$Id)
 ```
 
-The date format is not consistent throughout the datasets, so the runned code helps to fix this. At first glance, the “daily_activity” code did not change much but the initial date format was m/dd/YYYY, not mm/dd/YYYY. It prevents further file merge for analysis.
+The date format is not consistent throughout the datasets, so the runned code helps to fix this. 
+At first glance, the “daily_activity” code did not change much but the initial date format was m/dd/YYYY, not mm/dd/YYYY. It prevents further file merge for analysis.
 
 ```{r}
 # Fixing date consistency
@@ -105,6 +112,10 @@ activity_type_data <- daily_activitySleep %>%
 ```
 
 In table 1, the date and time columns are separated apart because time will be used as a key variable to group data for histogram in the next section.
+
+# Separating date and time columns
+hourly_steps <- separate(hourly_steps, date_time, into=c("date", "time"), sep= " ")
+head(hourly_steps)
 
 # What does the data tell us?
 
@@ -165,17 +176,15 @@ ggplot(data=daily_activitySleep, aes(x=SedentaryMinutes, y=TotalMinutesAsleep)) 
 ```
 
 # Conclusions and recommendations
+
 Based on the data analysis, there are some important recommendations for Bellabeat company.
 
 # List of References
+
 1. https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/ [accessed date: 16.11.2022].
-
 2. https://www.medicalnewstoday.com/articles/how-many-steps-should-you-take-a-day#for-general-health [accessed date: 16.11.2022].
-
 3. https://www.cdc.gov/sleep/about_sleep/how_much_sleep.html [accessed date: 16.11.2022].
-
 4. Lakerveld J., Mackenbach J.D., Horvath E., Rutters F., Compernolle S., Bárdos H., Bourdeaudhuij I.D., Charreire H., Rutter H., Oppert J-M., McKee M., Brug J. (2016). The relation between sleep duration and sedentary behaviours in European adults. Obesity Reviews, 17(Suppl., 1): 62-67.
-
 5. Creasy S.A., Crane T.E., Garcia D.O., Thomson C.A., Kohler L.N., Wertheim B.C., Baker L.D., Coday M., Hale L., Womack C.R., Wright Jr. K.P., Melanson E.L. (2019). Higher amounts of sedentary time are associated with short sleep duration and poor sleep quality in postmenopausal women. Sleep, 42(7): 1-9.
 
 
