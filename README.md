@@ -4,7 +4,7 @@ This repository contains the Bellabeat Case study created in RStudio, focusing o
 
 ## Data source
 
-The data source is publicly available through Kaggle platform: [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit).
+The dataset is publicly available through Kaggle platform: [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit).
 
 ## Files
 
