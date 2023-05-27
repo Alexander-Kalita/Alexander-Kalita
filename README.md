@@ -6,7 +6,9 @@ This repository contains the Bellabeat Case study created in RStudio, focusing o
 
 The data source is publicly available through Kaggle platform: [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit).
 
+## Files
 
+- [Bellabeat Case Study.html](https://rpubs.com/Alexander_Kalita/1041951) to access HTML version of the RMarkdown file of the case study in RPubs.
+- 
 
-This repository contains Bellabeat Case study created in RStudio. Please click [Bellabeat Case Study: How Can a Wellness Technology Company Play It Smart?](https://rpubs.com/Alexander_Kalita/1041951) to access the HTML version of the project in RPubs.
 
