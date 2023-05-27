@@ -4,15 +4,15 @@ author: "Alexander Kalita"
 output: html_document
 ---
 
-### Data source and data cleaning
+# Data source and data cleaning
 
 This section is divided into two parts. At first, the data source is briefly outlined and then detailed data processing is presented.
 
-#### Data source
+## Data source
 
 The data used in this study is publicly available through Kaggle platform: [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit). It was collected by Amazon Mechanical Turk between 03.12.2016-05.12.2016. This dataset consists of information about 30 users devoted to physical activity, sleeping patterns and heart rate. The data has some limitations: the data was collected in a single period of time, the sample is quite small (n=30) and it is not representative of the whole fitness tracker population. Despite its limitations, the data can be used to make a preliminary analysis of the smart device usage trends and its application to Bellabeat customers and marketing strategy.
 
-#### Processing data
+## Processing data
 
 With previously installed packages, the following libraries are loaded in RStudio:
 
@@ -104,11 +104,11 @@ activity_type_data <- daily_activitySleep %>%
 
 In table 1, the date and time columns are separated apart because time will be used as a key variable to group data for histogram in the next section.
 
-### What does the data tell us?
+# What does the data tell us?
 
 The section presents basic descriptive statistics of the key variables and some important data visualizations.
 
-#### Descriptive statistics
+## Descriptive statistics
 
 ```{r}
 # Summarizing total daily steps and activity level
@@ -132,7 +132,7 @@ daily_sleep %>%
 summary()
 ```
 
-### Data visualization
+## Data visualization
 
 ```{r}
 # Histogram: Average steps per hour in a day
@@ -162,10 +162,10 @@ ggplot(data=daily_activitySleep, aes(x=SedentaryMinutes, y=TotalMinutesAsleep)) 
   labs(title="Figure 3: Sedentary activities and Sleep duration")
 ```
 
-### Conclusions and recommendations
+# Conclusions and recommendations
 Based on the data analysis, there are some important recommendations for Bellabeat company.
 
-### List of References
+# List of References
 1. https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/ [accessed date: 16.11.2022].
 
 2. https://www.medicalnewstoday.com/articles/how-many-steps-should-you-take-a-day#for-general-health [accessed date: 16.11.2022].
