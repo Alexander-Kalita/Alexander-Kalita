@@ -6,9 +6,9 @@ output: html_document
 
 # Introduction
 
-
-
-
+The objective of this study is to analyze the provided dataset of smart device fitness data for Bellabeat customers and identify trends in smart device usage. 
+The study aims to provide recommendations to the Bellabeat management team for leveraging these trends in their marketing strategy
+and achieving further growth in the global smart device market.
 
 # Data source and data cleaning
 
