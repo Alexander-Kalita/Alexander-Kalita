@@ -9,6 +9,6 @@ The dataset is publicly available through Kaggle platform: [FitBit Fitness Track
 ## Files
 
 - [Bellabeat Case Study.html](https://rpubs.com/Alexander_Kalita/1041951) to access HTML version of the RMarkdown file of the case study in RPubs.
-- 
+- [Bellabeat-Code](https://github.com/Alexander-Kalita/Bellabeat-Case-study/blob/main/Bellabeat-Code) Code directory with R code of the case study.
 
 
