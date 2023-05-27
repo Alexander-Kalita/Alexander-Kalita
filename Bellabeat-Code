@@ -10,7 +10,9 @@ This section is divided into two parts. At first, the data source is briefly out
 
 ## Data source
 
-The data used in this study is publicly available through Kaggle platform: [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit). It was collected by Amazon Mechanical Turk between 03.12.2016-05.12.2016. This dataset consists of information about 30 users devoted to physical activity, sleeping patterns and heart rate. The data has some limitations: the data was collected in a single period of time, the sample is quite small (n=30) and it is not representative of the whole fitness tracker population. Despite its limitations, the data can be used to make a preliminary analysis of the smart device usage trends and its application to Bellabeat customers and marketing strategy.
+The data used in this study is publicly available through Kaggle platform: [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit). 
+It was collected by Amazon Mechanical Turk between 03.12.2016-05.12.2016. 
+This dataset consists of information about 30 users devoted to physical activity, sleeping patterns and heart rate. 
 
 ## Processing data
 
