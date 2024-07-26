@@ -1,4 +1,4 @@
-# Bellabeat Case Study: How Can a Wellness Technology Company Play It Smart?
+# Bellabeat: How Can a Wellness Technology Company Play It Smart?
 
 ## Introduction
 
