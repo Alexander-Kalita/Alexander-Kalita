@@ -1,6 +1,6 @@
-# Bellabeat Case study
+# Introduction
 
-This repository contains the Bellabeat Case study created in RStudio, focusing on how a wellness technology company can make smart business decisions. The case study explores data analysis and provides insights for Bellabeat's marketing strategy.
+This repository contains the Bellabeat Project created in RStudio, focusing on how a wellness technology company can make smart business decisions. The case study explores data analysis and provides insights for Bellabeat's marketing strategy.
 
 ## Data source
 
